@@ -1,0 +1,3 @@
+html=("index.html" "about.html")
+css=("style.css")
+js=("js/app.js" "server.js")
