@@ -1,9 +1,9 @@
 #!/bin/bash
-#####################
-# validate.sh #######
-version="1.2" #######
-### Kevin Mittman ###
-#####################
+#################
+# validate.sh ###
+version="1.3" ###
+### mittman #####
+#################
 
 # Input files
 html=("index.html")
@@ -115,7 +115,7 @@ parse_utils() {
 if [ ! -z "$1" ]; then
   echo "validate.sh -- version $version"
   echo -e "\nUtility to easily run webapp validation tests"
-  echo "Copyright (c) 2016 Kevin Mittman"
+  echo "Copyright (c) 2016 mittman"
   echo "Dual licensed: MIT (aka X11) and GPLv2"
   [ "$1" = "--version" ] && exit 0
 
@@ -124,13 +124,14 @@ if [ ! -z "$1" ]; then
     echo 'html=("index.html" "about.html")' > $config
     echo 'css=("style.css")' >> $config
     echo 'js=("js/app.js" "server.js")' >> $config
+    echo 'list="jshint csslint tidy whitespace stylish"' >> $config
     cat $config 2>/dev/null
   fi
 
   echo -e "\n${alert}==> ${notice}NOTE: nodeJS users${reset}"
   echo -e "  Add to ${fail}package.json${reset}"
   echo -e "    ${invert}  ""\"scripts""\": {${reset}"
-  echo -e "    ${invert}    ""\"test""\": ""\"validate.sh""\"${reset}"
+  echo -e "    ${invert}    ""\"test""\": ""\"/path/to/validate.sh""\"${reset}"
   echo -e "    ${invert}  },${reset}"
   echo -e "${reset}  Then ${alert}\$${reset} ${warn}npm test${reset}\n"
 
