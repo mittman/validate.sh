@@ -7,12 +7,14 @@ In the development directory, create `.webapp` containing the path to each file
 html=("index.html" "about.html")
 css=("style.css")
 js=("js/app.js" "server.js")
-list="jshint csslint tidy whitespace stylish"
+json=("db.json")
+list="jshint jsonlint csslint tidy whitespace stylish"
 ```
 
 ## Tests
 * [csslint](https://www.npmjs.com/package/csslint) --- CSS validator
 * [jshint](https://www.npmjs.com/package/jshint) --- Javascript validator
+* [jsonlint](https://www.npmjs.com/package/jsonlint) --- JSON validator
 * [tidy](https://github.com/htacg/tidy-html5/tree/master/README) --- HTML validator
 * whitespace (`built-in`) --- white-space validator
 * stylish (`built-in`) --- programming style validator

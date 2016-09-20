@@ -1,7 +1,7 @@
 #!/bin/bash
 #################
 # validate.sh ###
-version="1.3" ###
+version="1.4" ###
 ### mittman #####
 #################
 
@@ -9,9 +9,10 @@ version="1.3" ###
 html=("index.html")
 css=("style.css")
 js=("app.js" "client.js")
+json=("db.json")
 
 # Tests to run
-list="jshint csslint tidy whitespace stylish"
+list="jshint jsonlint csslint tidy whitespace stylish"
 config="$PWD/.webapp"
 
 checkdep() { type -p $1 &>/dev/null; }
@@ -86,6 +87,11 @@ parse_utils() {
       params="--quiet"
       input="${css[@]}"
       run_utility
+    elif [ "$cmd" = "jsonlint" ]; then
+      what="JSON"
+      params="--quiet"
+      input="${json[@]}"
+      run_utility
     elif [ "$cmd" = "jshint" ]; then
       what="Javascript"
       params=""
@@ -94,12 +100,12 @@ parse_utils() {
     elif [ "$cmd" = "whitespace" ]; then
       what="Whitespace"
       params=""
-      input=("${html[@]}" "${css[@]}" "${js[@]}")
+      input=("${html[@]}" "${css[@]}" "${json[@]}" "${js[@]}")
       run_utility
     elif [ "$cmd" = "stylish" ]; then
       what="Styling"
       params=""
-      input=("${html[@]}" "${css[@]}" "${js[@]}")
+      input=("${html[@]}" "${css[@]}" "${json[@]}" "${js[@]}")
       run_utility
     else
       echo -e "${fail}==> FAIL${reset} Unknown command $cmd"
@@ -124,7 +130,8 @@ if [ ! -z "$1" ]; then
     echo 'html=("index.html" "about.html")' > $config
     echo 'css=("style.css")' >> $config
     echo 'js=("js/app.js" "server.js")' >> $config
-    echo 'list="jshint csslint tidy whitespace stylish"' >> $config
+    echo 'json=("db.json")' >> $config
+    echo 'list="jshint jsonlint csslint tidy whitespace stylish"' >> $config
     cat $config 2>/dev/null
   fi
 

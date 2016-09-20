@@ -1,4 +1,5 @@
 html=("index.html" "about.html")
 css=("style.css")
 js=("js/app.js" "server.js")
-list="jshint csslint tidy whitespace stylish"
+json=("db.json")
+list="jshint jsonlint csslint tidy whitespace stylish"
