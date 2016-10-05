@@ -1,7 +1,7 @@
 #!/bin/bash
 #################
 # validate.sh ###
-version="1.6" ###
+version="1.7" ###
 ### mittman #####
 #################
 
@@ -27,9 +27,21 @@ reset="\e[0m"
 
 printusage() {
   echo "USAGE: validate.sh <file> <file>"
-  echo '    --config       - alt config file (default: $PWD/.webapp)'
-  echo '    -v, --version  - print version'
-  echo '    -h, --help     - outputs this message'
+  echo '    --config             - alt config file (default: $PWD/.webapp)'
+  echo '    -c, --csslint        - run css validation'
+  echo '    -j, --jshint         - run js validation'
+  echo '    -o, --jsonlint       - run json validation'
+  echo '    -s, --stylish        - run style validation'
+  echo '    -t, --tidy           - run html validation'
+  echo '    -w, --whitespace     - run whitespace validation'
+  echo '    -nc, --no-csslint    - do not run css validation'
+  echo '    -nj, --no-jshint     - do not run js validation'
+  echo '    -no, --no-jsonlint   - do not run json validation'
+  echo '    -ns, --no-stylish    - run style validation'
+  echo '    -nt, --no-tidy       - run html validation'
+  echo '    -nw, --no-whitespace - run whitespace validation'
+  echo '    -v, --version        - print version'
+  echo '    -h, --help           - outputs this message'
 }
 
 printversion() {
@@ -184,12 +196,38 @@ if [ ! -z "$1" ]; then
     elif [ "$1" = "--config" ]; then
       config="$2"
       shift
+    elif [ "$1" = "-j" -o "$1" = "--jshint" ]; then
+      list="jshint"
+    elif [ "$1" = "-o" -o "$1" = "--jsonlint" ]; then
+      list="jsonlint"
+    elif [ "$1" = "-c" -o "$1" = "--csslint" ]; then
+      list="csslint"
+    elif [ "$1" = "-t" -o "$1" = "--tidy" ]; then
+      list="tidy"
+    elif [ "$1" = "-w" -o "$1" = "--whitespace" ]; then
+      list="whitespace"
+    elif [ "$1" = "-s" -o "$1" = "--stylish" ]; then
+      list="stylish"
+    elif [ "$1" = "-nj" -o "$1" = "--nojshint" ]; then
+      list="${list//jshint}"
+    elif [ "$1" = "-no" -o "$1" = "--nojsonlint" ]; then
+      list="${list//jsonlint}"
+    elif [ "$1" = "-nc" -o "$1" = "--nocsslint" ]; then
+      list="${list//csslint}"
+    elif [ "$1" = "-nt" -o "$1" = "--notidy" ]; then
+      list="${list//tidy}"
+    elif [ "$1" = "-nw" -o "$1" = "--nowhitespace" ]; then
+      list="${list//whitespace}"
+    elif [ "$1" = "-ns" -o "$1" = "--nostylish" ]; then
+      list="${list//stylish}"
     elif [ -f "$1" ]; then
       [[ "$1" = *.html ]] && html+=("$1") && echo -e "${alert}:: html${reset} $1"
       [[ "$1" = *.css ]] && css+=("$1") && echo -e "${alert}:: css${reset} $1"
       [[ "$1" = *.json ]] && json+=("$1") && echo -e "${alert}:: json${reset} $1"
       [[ "$1" = *.js ]] && js+=("$1") && echo -e "${alert}:: js${reset} $1"
       unset config
+    elif [ -d "$1" ]; then
+      echo -e "${notice}==> Skipping directory${reset} $1"
     else
       printusage
       exit 1
