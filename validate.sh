@@ -1,7 +1,7 @@
 #!/bin/bash
 #################
 # validate.sh ###
-version="1.5" ###
+version="1.6" ###
 ### mittman #####
 #################
 
@@ -85,7 +85,7 @@ checkfiles() {
   exists="0"
   notfound="0"
 
-  for file in $@; do
+  for file in "${html[@]}" "${css[@]}" "${json[@]}" "${js[@]}"; do
     if [ -f "$file" ]; then
       exists=$((exists+1))
     else
@@ -185,18 +185,17 @@ if [ ! -z "$1" ]; then
       config="$2"
       shift
     elif [ -f "$1" ]; then
-      [[ "$1" = *.html ]] && html+=("$1")
-      [[ "$1" = *.css ]] && css+=("$1")
-      [[ "$1" = *.js ]] && js+=("$1")
-      [[ "$1" = *.json ]] && json+=("$1")
-      input=("${html[@]}" "${css[@]}" "${json[@]}" "${js[@]}")
+      [[ "$1" = *.html ]] && html+=("$1") && echo -e "${alert}:: html${reset} $1"
+      [[ "$1" = *.css ]] && css+=("$1") && echo -e "${alert}:: css${reset} $1"
+      [[ "$1" = *.json ]] && json+=("$1") && echo -e "${alert}:: json${reset} $1"
+      [[ "$1" = *.js ]] && js+=("$1") && echo -e "${alert}:: js${reset} $1"
+      unset config
     else
       printusage
       exit 1
     fi
     shift
   done
-  [ ! -z "$input" ] && unset config
 else
   if [ ! -f "$config" ]; then
     sampleconfig
